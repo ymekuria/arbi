@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const Gdax = require('gdax');
+const gdaxConnection = require('./sevices/gdaxConnection');
 
 app.use(bodyParser.json());
 require('./routes/routes')(app);
