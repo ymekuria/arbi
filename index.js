@@ -7,14 +7,13 @@ const gdaxConnection = require('./sevices/gdaxConnection');
 app.use(bodyParser.json());
 require('./routes/routes')(app);
 
-if (['production'].includes(process.env.NODE_ENV)) {
-  // express will serve up production assets
-  // like our main.js or main.css file
+if (['production', 'ci'].includes(process.env.NODE_ENV)) {
+  // serves up production assets
+  // main.js or main.css file
   app.use(express.static('client/build'));
 
-  // express will serve up the index.hml
+  // serve ups the index.hml
   // file if it doesn't understand the route ie react router
-  // route
 
   const path = require('path');
   app.get('*', (req, res) => {

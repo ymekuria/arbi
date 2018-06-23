@@ -33,6 +33,8 @@
     "gdax": "^0.8.0",
     "jest": "^23.1.0",
     "nodemon": "^1.17.5",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^1.0.0",
     "puppeteer": "^1.5.0",
     "ws": "^5.2.0"
   }
