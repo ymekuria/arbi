@@ -1,13 +1,18 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const mongoose = require('mongoose');
 const Gdax = require('gdax');
+const keys = require('./config/keys');
 const gdaxConnection = require('./services/gdaxConnection');
 
+const app = express();
+require('./models/User');
 require('./services/passport');
-
+mongoose.connect(keys.mongoURI);
 app.use(bodyParser.json());
+
+mongoose.conect;
 
 require('./routes/authRoutes')(app);
 require('./routes/routes')(app);
