@@ -1,10 +1,15 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const passport = require('passport');
 const Gdax = require('gdax');
-const gdaxConnection = require('./sevices/gdaxConnection');
+const gdaxConnection = require('./services/gdaxConnection');
+
+require('./services/passport');
 
 app.use(bodyParser.json());
+
+require('./routes/authRoutes')(app);
 require('./routes/routes')(app);
 
 if (['production', 'ci'].includes(process.env.NODE_ENV)) {
