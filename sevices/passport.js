@@ -15,10 +15,15 @@ passport.deserializeUser((id, done) => {
 // TODO: add GitHub and Facebook Auth Strategies
 
 passport.use(
-  new GoogleStrategy({
-    clientID: keys.clientID,
-    clientSecret: keys.googleClientSecret,
-    callbackURL: 'auth/google/cb',
-    proxy: true
-  })
+  new GoogleStrategy(
+    {
+      clientID: keys.clientID,
+      clientSecret: keys.googleClientSecret,
+      callbackURL: 'auth/google/cb',
+      proxy: true
+    },
+    accessToken => {
+      console.log(`accesToken${accessToken}`);
+    }
+  )
 );
