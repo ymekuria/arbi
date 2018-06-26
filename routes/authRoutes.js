@@ -8,5 +8,5 @@ module.exports = app => {
     })
   );
 
-  app.get('auth/google/cb', passport.authenticate('google'));
+  app.get('/auth/google/cb', passport.authenticate('google'));
 };
