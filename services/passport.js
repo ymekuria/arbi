@@ -5,15 +5,15 @@ const keys = require('../config/keys');
 
 // requireing User this way to avoid testing errors and collisions
 const User = mongoose.model('users');
-// passport.serializeUser((user, done) => {
-//   done(null, user.id);
-// });
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
 
-// passport.deserializeUser((id, done) => {
-//   User.findById(id).then(user => {
-//     done(null, user);
-//   });
-// });
+passport.deserializeUser((id, done) => {
+  User.findById(id).then(user => {
+    done(null, user);
+  });
+});
 
 // TODO: add GitHub and Facebook Auth Strategies
 // TODO: set up cache
@@ -25,17 +25,16 @@ passport.use(
       callbackURL: '/auth/google/cb'
     },
     async (accessToken, refreshToken, profile, done) => {
-      // const existingUser = await User.findOne({ googleID: profile.id });
+      const existingUser = await User.findOne({ googleID: profile.id });
 
-      // if (existingUser) {
-      //   // return existing User from DB
-      //   return done(null, existingUser);
-      // }
-      console.log(`profile: `, profile.id);
+      if (existingUser) {
+        // return existing user from DB
+        return done(null, existingUser);
+      }
+
       // create a new user record if not found in db
-      console.log('user: ', User);
-      new User({ googleID: profile.id }).save();
-      // done(null, user);
+      const newUser = new User({ googleID: profile.id }).save();
+      done(null, newUser);
     }
   )
 );
