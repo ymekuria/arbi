@@ -49,7 +49,18 @@ passport.use(
       callbackURL: '/auth/facebook/cb'
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log('accessToken: ', accessToken);
+      const existingUser = await User.findOne({ facebookID: profile.id });
+      console.log('profile', profile.id);
+      if (existingUser) {
+        console.log('returning existing user: ', existingUser);
+        // we already have a record with the given profile ID
+        return done(null, existingUser);
+      }
+
+      // we don't have a user record with this ID, make a new record!
+      const newUser = await new User({ facebookID: profile.id }).save();
+      console.log('newUser returned', newUser);
+      done(null, newUser);
     }
   )
 );
