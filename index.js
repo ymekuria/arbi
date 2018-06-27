@@ -1,12 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const cookieSession = require('cookie-session');
 const mongoose = require('mongoose');
 const Gdax = require('gdax');
 const keys = require('./config/keys');
 const gdaxConnection = require('./services/gdaxConnection');
 
 const app = express();
+
+app.use(
+  cookieSession({
+    maxAge: 5 * 24 * 60 * 60 * 1000,
+    keys: [keys.cookieKey]
+  })
+);
+
 require('./models/User');
 require('./services/passport');
 mongoose.connect(keys.mongoURI);
