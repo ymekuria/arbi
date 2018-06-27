@@ -1,6 +1,7 @@
 const passport = require('passport');
 const mongoose = require('mongoose');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const keys = require('../config/keys');
 
 // requireing User this way to avoid testing errors and collisions
@@ -38,4 +39,12 @@ passport.use(
       done(null, newUser);
     }
   )
+);
+
+passport.use(
+  new FacebookStrategy({
+    clientID: keys.facebookClientID,
+    clientSecret: keys.facebookClientSecret,
+    callbackURL: '/auth/facebook/cb'
+  })
 );
