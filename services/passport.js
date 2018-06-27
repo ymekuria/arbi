@@ -42,9 +42,14 @@ passport.use(
 );
 
 passport.use(
-  new FacebookStrategy({
-    clientID: keys.facebookClientID,
-    clientSecret: keys.facebookClientSecret,
-    callbackURL: '/auth/facebook/cb'
-  })
+  new FacebookStrategy(
+    {
+      clientID: keys.facebookClientID,
+      clientSecret: keys.facebookClientSecret,
+      callbackURL: '/auth/facebook/cb'
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      console.log('accessToken: ', accessToken);
+    }
+  )
 );
