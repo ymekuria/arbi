@@ -9,10 +9,9 @@ passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-  User.findById(id).then(user => {
-    done(null, user);
-  });
+passport.deserializeUser(async (id, done) => {
+  const user = await User.findById(id);
+  done(null, user);
 });
 
 // TODO: add GitHub and Facebook Auth Strategies
@@ -28,12 +27,14 @@ passport.use(
       const existingUser = await User.findOne({ googleID: profile.id });
 
       if (existingUser) {
+        console.log('returning existing user: ', existingUser);
         // return existing user from DB
         return done(null, existingUser);
       }
 
       // create a new user record if not found in db
-      const newUser = new User({ googleID: profile.id }).save();
+      const newUser = await new User({ googleID: profile.id }).save();
+      console.log('newUser returned: ', newUser);
       done(null, newUser);
     }
   )

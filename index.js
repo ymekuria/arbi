@@ -7,6 +7,11 @@ const Gdax = require('gdax');
 const keys = require('./config/keys');
 const gdaxConnection = require('./services/gdaxConnection');
 
+require('./models/User');
+require('./services/passport');
+
+mongoose.connect(keys.mongoURI);
+
 const app = express();
 
 app.use(
@@ -16,12 +21,9 @@ app.use(
   })
 );
 
-require('./models/User');
-require('./services/passport');
-mongoose.connect(keys.mongoURI);
 app.use(bodyParser.json());
-
-mongoose.conect;
+app.use(passport.initialize());
+app.use(passport.session());
 
 require('./routes/authRoutes')(app);
 require('./routes/routes')(app);
